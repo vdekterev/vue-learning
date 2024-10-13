@@ -1,150 +1,201 @@
 <script setup>
-	import { ref } from 'vue'
-	function getRandomColor() {
-		return "hsl(" + Math.random() * 360 + ", 50%, 50%)";
+import { ref } from 'vue'
+function getRandomColor() {
+	return 'hsl(' + Math.random() * 360 + ', 50%, 50%)'
+}
+const isModalOpen = ref(false)
+const newNote = ref('')
+
+const notes = ref([])
+
+const selectedNote = ref({})
+
+try {
+	const lsNotes = JSON.parse(localStorage.getItem('notes'))
+	if (Array.isArray(lsNotes)) {
+		notes.value = lsNotes
 	}
-	const isModalOpen = ref(false);
+} catch (e) {
+	console.error(e)
+}
+
+function addNote() {
+	const date = new Date()
+	newNote.value = newNote.value.trim()
+	if (newNote.value.length > 0) {
+		notes.value.push({
+			id: Math.floor(Math.random() * 100000) + 1,
+			text: newNote.value,
+			color: getRandomColor(),
+			date: date.toLocaleDateString(),
+		})
+		try {
+			localStorage.setItem('notes', JSON.stringify(notes.value))
+		} catch (e) {
+			console.error(e)
+		}
+		isModalOpen.value = false
+		newNote.value = ''
+	}
+}
+
+function selectNote(noteId) {
+	const res = notes.value.find(i => i.id === noteId)
+	if (res) {
+		selectedNote.value = res
+	}
+}
 </script>
 
 <template>
 	<main>
-		<div class="modal" @click.self="isModalOpen=false" v-if="isModalOpen">
-				<div class="modal-content">
-					<p>Add a new note</p>
-					<textarea name="note" id="notes" cols="30" rows="10"/>
-					<button>Add</button>
-					<div class="close">+</div>
-				</div>
+		<div class="modal" @click.self="isModalOpen = false" v-if="isModalOpen">
+			<div class="modal-content">
+				<p>Add a new note</p>
+				<textarea
+					v-model="newNote"
+					name="note"
+					id="notes"
+					cols="30"
+					rows="10"
+				/>
+				<button @click="addNote">Add</button>
+			</div>
 		</div>
-
 
 		<div class="header">
 			<h1>Notes</h1>
-			<button @click="isModalOpen=true">+</button>
+			<button @click="isModalOpen = true">+</button>
 		</div>
 
 		<div id="notes">
-			<div class="note" :style="{background: getRandomColor()}">
-				<div class="note_title">title1</div>
-				<div class="note_content">
-					Lorem ipsum dolor sit amet,
-					consectetur adipisicing elit.
-					A accusamus fugiat ipsa laborum
-					maiores qui tempora vel veniam
-					voluptates voluptatum?
-					Lorem ipsum dolor sit amet,
-					consectetur adipisicing elit.
-					A accusamus fugiat ipsa laborum
-					maiores qui tempora vel veniam
-					voluptates voluptatum?
-					Lorem ipsum dolor sit amet,
-					consectetur adipisicing elit.
-					A accusamus fugiat ipsa laborum
-					maiores qui tempora vel veniam
-					voluptates voluptatum?
+			<template v-for="note in notes" :key="note.id">
+				<div
+					class="note"
+					:style="{ background: note.color }"
+					@click="selectNote(note.id)"
+					:class="{'selected': selectedNote.id === note.id}"
+				>
+					<div class="note_title">Title № {{ note.id }}</div>
+					<div class="note_content">
+						{{ note.text }}
+					</div>
+					<div class="note_date">{{ note.date }}</div>
 				</div>
-				<div class="note_date">11.10.2024</div>
-			</div>
-			<div class="note" :style="{background: getRandomColor()}">
-				<div class="note_title">title1</div>
-				<div class="note_content">
-					Lorem ipsum dolor sit amet,
-					consectetur adipisicing elit.
-					A accusamus fugiat ipsa laborum
-					maiores qui tempora vel veniam
-					voluptates voluptatum?
-				</div>
-				<div class="note_date">11.10.2024</div>
-			</div>
+			</template>
 		</div>
 	</main>
 </template>
 
 <style scoped>
-	.header {
-		display: flex;
-		place-content: center space-between;
-	}
-	.header h1 {
-		font-size: 48px;
-		font-weight: 700;
-	}
-	.header button {
-		border: none;
-		border-radius: 99px;
-		display: flex;
-		place-items: center;
-		place-content: center;
-		width: 48px;
-		aspect-ratio: 1;
-		background: #000;
-		color: #f2f2f2;
-		cursor: pointer;
-		font-size: 20px;
-	}
-	#notes {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		grid-gap: 20px;
-	}
-	.note {
-		border-radius: 12px;
-		padding: 10px;
-		width: 100%;
-		max-width: 250px;
-		max-height: 250px;
-		aspect-ratio: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		background: #1F1F1F;
-	}
-	.note_title {
-		font-weight: bold;
-		padding-bottom: 10px;
-		border-bottom: 1px dashed gray;
-		text-align: center;
-		font-size: 20px;
-	}
-	.note_content {
-		flex-grow: 1;
-		overflow: hidden;
-	}
+.header {
+	display: flex;
+	place-content: center space-between;
+}
+.header h1 {
+	font-size: 48px;
+	font-weight: 700;
+	color: #1f1f1f;
+	text-shadow: 7px 7px 2px rgba(0, 0, 0, 0.23);
+	user-select: none;
+}
+.header button {
+	border: none;
+	border-radius: 99px;
+	display: flex;
+	place-items: center;
+	place-content: center;
+	width: 48px;
+	aspect-ratio: 1;
+	background: #000;
+	color: #f2f2f2;
+	cursor: pointer;
+	font-size: 20px;
+	box-shadow: 7px 7px 5px 0 rgba(0, 0, 0, 0.23);
+	user-select: none;
+	transition: all 0.2s ease-in-out;
+}
 
-	.modal textarea {
-		border-radius: 12px;
-		padding: 10px;
-	}
-	.modal button {
-		user-select: none;
-		width: 100%;
-		border: none;
-		border-radius: 8px;
-		font-size: 20px;
-		color: #f2f2f2;
-		background: rgb(2,0,36);
-		background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(108,105,149,1) 0%, rgba(54,82,198,1) 53%, rgba(34,177,39,1) 100%);
-	}
-	.modal button:active {
-		box-shadow: 2px 2px 5px gray;
-	}
-	.modal .close {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		border-radius: 99px;
-		background-color: gray;
-		width: 24px;
-		aspect-ratio: 1;
-		display: flex;
-		place-items: center;
-		place-content: center;
-		font-weight: bold;
-		transform: rotate(45deg);
-		cursor: pointer;
-		user-select: none;
-	}
-	.modal .close:active {
-		box-shadow: 2px 2px 5px gray;
-	}
+.header button:active {
+	transform: translate(7px, 7px);
+	box-shadow: none;
+}
+
+#notes {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 20px;
+}
+.note {
+	position: relative;
+	cursor: pointer;
+	border-radius: 12px;
+	padding: 10px;
+	width: 100%;
+	max-width: 250px;
+	max-height: 250px;
+	aspect-ratio: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background: #1f1f1f;
+	-webkit-box-shadow: 14px 14px 5px 0px rgba(0, 0, 0, 0.23);
+	-moz-box-shadow: 14px 14px 5px 0px rgba(0, 0, 0, 0.23);
+	box-shadow: 14px 14px 5px 0px rgba(0, 0, 0, 0.23);
+	transition: all 0.2s ease-in-out;
+}
+
+.note.selected {
+	border: 1px solid #1f1f1f;
+}
+
+.note.selected::after {
+	position: absolute;
+	content: 'Remove note';
+	bottom: 10px;
+	right: 10px;
+}
+
+.note:active {
+	transform: translate(14px, 14px);
+	box-shadow: none;
+}
+
+.note_title {
+	font-weight: bold;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed gray;
+	text-align: center;
+	font-size: 20px;
+}
+.note_content {
+	flex-grow: 1;
+	overflow: hidden;
+}
+
+.note_date {
+	font-weight: bold;
+}
+
+.modal textarea {
+	border-radius: 12px;
+	padding: 10px;
+}
+
+.modal textarea:focus {
+	outline: #1f1f1f;
+}
+
+.modal button {
+	user-select: none;
+	width: 100%;
+	border: none;
+	border-radius: 8px;
+	font-size: 20px;
+	color: #f2f2f2;
+	background-color: blueviolet;
+}
+.modal button:active {
+	box-shadow: 2px 2px 5px gray;
+}
 </style>

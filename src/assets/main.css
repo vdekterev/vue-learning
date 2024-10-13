@@ -22,7 +22,7 @@ main {
 }
 
 .modal {
-  position: fixed; 
+  position: fixed;
   z-index: 1; 
   padding-top: 100px; 
   left: 0;
@@ -39,26 +39,18 @@ main {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: #fefefe;
+  background-color: #444444;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  border-radius: 12px;
+  width: 50%;
+  max-width: 400px;
 }
 
-
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
+.modal-content p {
   font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+  text-align: center;
 }
 
 @media (hover: hover) {
@@ -67,3 +59,9 @@ main {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  #app {
+    background-color: #1F1F1F;
+    color: #f2f2f2;
+  }
+}
