@@ -100,6 +100,7 @@ function selectNote(noteId) {
 .header {
 	display: flex;
 	place-content: center space-between;
+	padding: 0 5px;
 }
 .header h1 {
 	font-size: 48px;
@@ -140,8 +141,8 @@ function selectNote(noteId) {
 	cursor: pointer;
 	border-radius: 12px;
 	padding: 10px;
-	width: 100%;
-
+	width: min(250px, 100%);
+	margin: 0 auto;
 	aspect-ratio: 1;
 	display: flex;
 	flex-direction: column;
