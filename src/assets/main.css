@@ -60,8 +60,5 @@ main {
 }
 
 @media (prefers-color-scheme: dark) {
-  #app {
-    background-color: #1F1F1F;
-    color: #f2f2f2;
-  }
+
 }

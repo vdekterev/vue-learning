@@ -69,20 +69,20 @@ function selectNote(noteId) {
 		</div>
 
 		<div id="notes">
-			<template v-for="note in notes" :key="note.id">
 				<div
+					v-for="note in notes"
+					:key="note.id"
 					class="note"
 					:style="{ background: note.color }"
 					@click="selectNote(note.id)"
 					:class="{'selected': selectedNote.id === note.id}"
 				>
-					<div class="note_title">Title № {{ note.id }}</div>
+					<div class="note_title">Note № {{ note.id }}</div>
 					<div class="note_content">
 						{{ note.text }}
 					</div>
 					<div class="note_date">{{ note.date }}</div>
 				</div>
-			</template>
 		</div>
 	</main>
 </template>
@@ -139,9 +139,9 @@ function selectNote(noteId) {
 	flex-direction: column;
 	gap: 10px;
 	background: #1f1f1f;
-	-webkit-box-shadow: 14px 14px 5px 0px rgba(0, 0, 0, 0.23);
-	-moz-box-shadow: 14px 14px 5px 0px rgba(0, 0, 0, 0.23);
-	box-shadow: 14px 14px 5px 0px rgba(0, 0, 0, 0.23);
+	-webkit-box-shadow: 14px 14px 5px 0 rgba(0, 0, 0, 0.23);
+	-moz-box-shadow: 14px 14px 5px 0 rgba(0, 0, 0, 0.23);
+	box-shadow: 14px 14px 5px 0 rgba(0, 0, 0, 0.23);
 	transition: all 0.2s ease-in-out;
 }
 
