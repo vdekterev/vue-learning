@@ -1,46 +1,49 @@
 <script setup>
+	import q from '@/api/quizzes.json';
+	import { ref, watch } from 'vue'
 
+	import QuizCard from '@/components/QuizCard.vue'
+
+	const quizzes = ref(q);
+	const search = ref('');
+
+	watch(search, () => {
+		quizzes.value = q.filter(item => {
+			return item.name.toLowerCase().includes(search.value.toLowerCase());
+		})
+	})
 </script>
 
 <template>
 	<header>
 		<h1>Quizzes</h1>
-		<input class="search-bar" placeholder="Search..."/>
+		<input v-model.trim="search" class="search-bar" placeholder="Search..."/>
 	</header>
 
 	<main>
 		<div id="cards">
-			<div class="card">
-				<div class="card_img">
-					<img src="https://placehold.co/476x476/black/blue/?text=Quizz" alt="Quiz Image">
-				</div>
-			</div>
+			<QuizCard v-for="q in quizzes" :key="q.id" :quiz="q"/>
 		</div>
 	</main>
+
 </template>
 
 <style scoped>
 	header {
 		display: flex;
 		gap: 30px;
+		& .search-bar {
+			border-radius: 8px;
+			padding: 0 8px;
+			place-items: center;
+		}
 	}
-	header .search-bar {
-		border-radius: 8px;
-		padding: 0 8px;
-		place-items: center;
+	main {
+		margin: 32px auto;
 	}
 	#cards {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		grid-gap: 20px;
-	}
-	card {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-	}
-	.card .card_img > img {
-		object-fit: contain;
 	}
 </style>
