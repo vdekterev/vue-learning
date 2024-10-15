@@ -53,6 +53,17 @@ main {
   text-align: center;
 }
 
+.modal-content:has(.error) textarea {
+  border: 1px solid crimson;
+  outline: 1px solid crimson;
+}
+
+
+.modal-content .error {
+  color: crimson;
+  font-size: 16px;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);

@@ -5,10 +5,9 @@ function getRandomColor() {
 }
 const isModalOpen = ref(false)
 const newNote = ref('')
-
 const notes = ref([])
-
 const selectedNote = ref({})
+const errorMessage = ref('');
 
 try {
 	const lsNotes = JSON.parse(localStorage.getItem('notes'))
@@ -16,15 +15,25 @@ try {
 		notes.value = lsNotes
 	}
 } catch (e) {
-	console.error(e)
+	console.warn(e)
+}
+
+function validateForm() {
+	if (newNote.value.length < 10) {
+		errorMessage.value = 'Too few symbols - must be at least 10';
+	}
+	return errorMessage.value === '';
+
 }
 
 function addNote() {
 	const date = new Date()
-	newNote.value = newNote.value.trim()
-	if (newNote.value.length > 0) {
+
+	validateForm();
+
+	if (validateForm()) {
 		notes.value.push({
-			id: Math.floor(Math.random() * 100000) + 1,
+			id: Math.floor(Math.random() * 10000) + 1,
 			text: newNote.value,
 			color: getRandomColor(),
 			date: date.toLocaleDateString(),
@@ -32,7 +41,7 @@ function addNote() {
 		try {
 			localStorage.setItem('notes', JSON.stringify(notes.value))
 		} catch (e) {
-			console.error(e)
+			console.warn(e)
 		}
 		isModalOpen.value = false
 		newNote.value = ''
@@ -53,12 +62,14 @@ function selectNote(noteId) {
 			<div class="modal-content">
 				<p>Add a new note</p>
 				<textarea
-					v-model="newNote"
+					v-model.trim="newNote"
+					@keydown="errorMessage=''"
 					name="note"
 					id="notes"
 					cols="30"
 					rows="10"
 				/>
+				<div v-if="errorMessage" class="error">{{ errorMessage }}</div>
 				<button @click="addNote">Add</button>
 			</div>
 		</div>
@@ -123,7 +134,7 @@ function selectNote(noteId) {
 
 #notes {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 	grid-gap: 20px;
 }
 .note {
@@ -132,8 +143,7 @@ function selectNote(noteId) {
 	border-radius: 12px;
 	padding: 10px;
 	width: 100%;
-	max-width: 250px;
-	max-height: 250px;
+
 	aspect-ratio: 1;
 	display: flex;
 	flex-direction: column;
@@ -146,17 +156,10 @@ function selectNote(noteId) {
 }
 
 .note.selected {
-	border: 1px solid #1f1f1f;
+	transform: translate(-10px, -10px);
 }
 
-.note.selected::after {
-	position: absolute;
-	content: 'Remove note';
-	bottom: 10px;
-	right: 10px;
-}
-
-.note:active {
+.note:not(.selected):active {
 	transform: translate(14px, 14px);
 	box-shadow: none;
 }
