@@ -28,9 +28,7 @@ function validateForm() {
 
 function addNote() {
 	const date = new Date()
-
 	validateForm();
-
 	if (validateForm()) {
 		notes.value.push({
 			id: Math.floor(Math.random() * 10000) + 1,
