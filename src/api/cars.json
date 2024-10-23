@@ -1,0 +1,38 @@
+[
+  {
+    "id" : 1,
+    "name": "Lada Granta",
+    "price": 619000,
+    "year": 2016,
+    "image": "https://www.avtogermes.ru/images/models/exterior/edf8716cadf58f861995634311e82ea2.jpg",
+    "contacts": {
+      "name": "Lada Official Dealership",
+      "phone": "89191991909",
+      "allowedToShow": true
+    }
+  },
+  {
+    "id" : 2,
+    "name": "Dodge Hellcat",
+    "price": 2789000,
+    "year": 2025,
+    "image": "https://live.staticflickr.com/65535/53688630896_74b9fc1c49_h.jpg",
+    "contacts": {
+      "name": "Anonymous",
+      "phone": "89123456789",
+      "allowedToShow": false
+    }
+  },
+  {
+    "id" : 3,
+    "name": "Oka",
+    "price": 7000,
+    "year": 1990,
+    "image": "https://avatars.mds.yandex.net/get-verba/787013/2a000001609d5af365323537707cb8318985/cattouchret",
+    "contacts": {
+      "name": "Drunk Grandpa",
+      "phone": "89876543210",
+      "allowedToShow": true
+    }
+  }
+]
