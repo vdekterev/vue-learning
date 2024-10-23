@@ -11,6 +11,9 @@
 			<h3>{{quiz.name}}</h3>
 			<p>{{quiz.questions.length}} questions</p>
 		</div>
+		<div class="card__link">
+			<RouterLink :to="`/quizzes/${quiz.slug}`"/>
+		</div>
 	</div>
 </template>
 
@@ -25,6 +28,7 @@
 	background-color: #545454;
 	cursor: pointer;
 	margin: 0 auto;
+	position: relative;
 	&_img {
 		overflow: hidden;
 		border-top-left-radius: 8px;
@@ -42,6 +46,13 @@
 			font-weight: bold;
 			line-height: 36px;
 		}
+	}
+	&__link > a {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 	}
 }
 </style>
