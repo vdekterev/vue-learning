@@ -29,6 +29,7 @@
 	cursor: pointer;
 	margin: 0 auto;
 	position: relative;
+	transition: transform .3s ease-in-out;
 	&_img {
 		overflow: hidden;
 		border-top-left-radius: 8px;
@@ -53,6 +54,9 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
+	}
+	&:hover {
+		transform: scale(1.05);
 	}
 }
 </style>

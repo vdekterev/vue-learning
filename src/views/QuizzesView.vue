@@ -36,7 +36,6 @@ watch(search, () => {
 	& .search-bar {
 		border-radius: 8px;
 		padding: 0 8px;
-		place-items: center;
 	}
 }
 </style>
