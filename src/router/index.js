@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import QuizzesView from '@/views/QuizzesView.vue';
 import QuizzView from '@/views/QuizzView.vue'
-import QuizzQuestionView from '@/views/QuizzQuestionView.vue'
+import QuizzQuestionView from '@/components/QuizzQuestion.vue'
 
 const routes = [
 	{

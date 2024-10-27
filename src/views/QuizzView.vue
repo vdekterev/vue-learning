@@ -2,12 +2,11 @@
 	import {useRoute, useRouter} from 'vue-router'
 	import quizzes from '@/api/quizzes.json';
 	import GetBackArrow from '@/components/ui/GetBackArrow.vue'
-	import { ref } from 'vue'
 	import ProgressBar from '@/components/ui/ProgressBar.vue'
+	import QuizzQuestionView from '@/components/QuizzQuestion.vue';
+	import { ref } from 'vue'
 	const route = useRoute();
 	const router = useRouter();
-
-	const quizzesSolved = ref(0);
 
 	const quizz = quizzes.find(q => q.slug === route.params.slug);
 	const questionsCount = quizz.questions.length;
@@ -18,9 +17,10 @@
 	<GetBackArrow :text="'Back'" :callback="() => router.push('/')"/>
 	<div class="quizz" v-if="quizz">
 		<div class="quizz_head">
-			<h2>Question {{quizzesSolved}}/{{ questionsCount }}</h2>
+			<h2>Question 1/{{ questionsCount }}</h2>
 			<ProgressBar/>
 		</div>
+		<QuizzQuestionView/>
 		<RouterView/>
 	</div>
 
