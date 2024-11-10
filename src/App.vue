@@ -1,55 +1,63 @@
-<script setup>
-import { ref } from 'vue'
-function getRandomColor() {
-	return 'hsl(' + Math.random() * 360 + ', 50%, 50%)'
-}
-const isModalOpen = ref(false)
-const newNote = ref('')
-const notes = ref([])
-const selectedNote = ref({})
-const errorMessage = ref('');
-
-try {
-	const lsNotes = JSON.parse(localStorage.getItem('notes'))
-	if (Array.isArray(lsNotes)) {
-		notes.value = lsNotes
-	}
-} catch (e) {
-	console.warn(e)
-}
-
-function validateForm() {
-	if (newNote.value.length < 10) {
-		errorMessage.value = 'Too few symbols - must be at least 10';
-	}
-	return errorMessage.value === '';
-
-}
-
-function addNote() {
-	const date = new Date()
-	validateForm();
-	if (validateForm()) {
-		notes.value.push({
-			id: Math.floor(Math.random() * 10000) + 1,
-			text: newNote.value,
-			color: getRandomColor(),
-			date: date.toLocaleDateString(),
-		})
-		try {
-			localStorage.setItem('notes', JSON.stringify(notes.value))
-		} catch (e) {
-			console.warn(e)
+<script>
+export default {
+	name: 'App',
+	components: {},
+	data() {
+		return {
+			isModalOpen: false,
+			newNote: '',
+			notes: [],
+			selectedNote: {},
+			errorMessage: ''
 		}
-		isModalOpen.value = false
-		newNote.value = ''
-	}
-}
+	},
+	created() {
+		try {
+			const lsNotes = JSON.parse(localStorage.getItem('notes'));
+			if (Array.isArray(lsNotes)) {
+				this.notes = lsNotes;
+			}
+		} catch (e) {
+			console.error(e);
+		}
+	},
+	methods: {
+		getRandomColor() {
+			return 'hsl(' + Math.random() * 360 + ', 50%, 50%)'
+		},
+		validateForm() {
+			if (this.newNote.length < 10) {
+				this.errorMessage = 'Too few symbols - must be at least 10';
+			}
+			return this.errorMessage === '';
 
-function selectNote(noteId) {
-	const res = notes.value.find(i => i.id === noteId)
-	if (res) {
-		selectedNote.value = res
+		},
+		addNote() {
+			const date = new Date()
+			this.validateForm();
+			if (this.validateForm()) {
+				this.notes.push({
+					id: Math.floor(Math.random() * 10000) + 1,
+					text: this.newNote,
+					color: this.getRandomColor(),
+					date: date.toLocaleDateString(),
+				})
+				try {
+					localStorage.setItem('notes', JSON.stringify(this.notes))
+				} catch (e) {
+					console.warn(e)
+				}
+				this.isModalOpen = false
+				this.newNote = ''
+			}
+		},
+		selectNote(noteId) {
+			const res = this.notes.find(i => i.id === noteId);
+
+			if (res) {
+				this.selectedNote = res !== this.selectedNote ? res : {};
+			}
+		}
 	}
 }
 </script>
@@ -133,7 +141,7 @@ function selectNote(noteId) {
 
 #notes {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 	grid-gap: 20px;
 }
 .note {
@@ -141,21 +149,22 @@ function selectNote(noteId) {
 	cursor: pointer;
 	border-radius: 12px;
 	padding: 10px;
-	width: min(250px, 100%);
+	width: min(230px, 100%);
 	margin: 0 auto;
 	aspect-ratio: 1;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
 	background: #1f1f1f;
-	-webkit-box-shadow: 14px 14px 5px 0 rgba(0, 0, 0, 0.23);
-	-moz-box-shadow: 14px 14px 5px 0 rgba(0, 0, 0, 0.23);
 	box-shadow: 14px 14px 5px 0 rgba(0, 0, 0, 0.23);
 	transition: all 0.2s ease-in-out;
+	user-select: none;
 }
 
 .note.selected {
 	transform: translate(-10px, -10px);
+	box-shadow: 24px 24px 5px 0 rgba(0, 0, 0, 0.23);
+	user-select: text;
 }
 
 .note:not(.selected):active {
