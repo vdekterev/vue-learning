@@ -12,7 +12,7 @@
 			<p>{{quiz.questions.length}} questions</p>
 		</div>
 		<div class="card__link">
-			<RouterLink :to="`/quizzes/${quiz.slug}`"/>
+			<RouterLink :to="`/quizzes/${quiz.slug}/question/1`"/>
 		</div>
 	</div>
 </template>

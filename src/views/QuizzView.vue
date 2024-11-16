@@ -2,26 +2,27 @@
 	import {useRoute, useRouter} from 'vue-router'
 	import quizzes from '@/api/quizzes.json';
 	import GetBackArrow from '@/components/ui/GetBackArrow.vue'
-	import ProgressBar from '@/components/ui/ProgressBar.vue'
-	import QuizzQuestionView from '@/components/QuizzQuestion.vue';
-	import { ref } from 'vue'
-	const route = useRoute();
+	import QuizzHead from '@/components/QuizzHead.vue'
+	import { computed, ref } from 'vue';
+	import QuizzQuestion from '@/components/QuizzQuestion.vue'
+	const route = useRoute()
 	const router = useRouter();
 
+	const currentQuestionIdx = ref(0);
 	const quizz = quizzes.find(q => q.slug === route.params.slug);
-	const questionsCount = quizz.questions.length;
 
+	const questionStatus = computed(() => `${currentQuestionIdx.value} / ${quizz.questions.length}`)
+	const completionPercentage = computed(() => {
+		return `${currentQuestionIdx.value / quizz.questions.length * 100}%`;
+	});
 </script>
 
 <template>
 	<GetBackArrow :text="'Back'" :callback="() => router.push('/')"/>
 	<div class="quizz" v-if="quizz">
-		<div class="quizz_head">
-			<h2>Question 1/{{ questionsCount }}</h2>
-			<ProgressBar/>
-		</div>
-		<QuizzQuestionView/>
-		<RouterView/>
+		<QuizzHead :question-status="questionStatus" :completionPercentage="completionPercentage"/>
+		<QuizzQuestion :question="quizz.questions[currentQuestionIdx]"/>
+		<button @click="currentQuestionIdx++">Next</button>
 	</div>
 
 	<div v-else>
@@ -31,13 +32,10 @@
 </template>
 
 <style scoped lang="scss">
-	.quizz {
-		&_head {
-			display: flex;
-			flex-direction: column;
-			gap: 4px;
-			align-items: flex-start;
-		}
-
+	.start-quiz {
+		cursor: pointer;
+		padding: 8px;
+		width: 100px;
+		font-size: 1rem;
 	}
 </style>

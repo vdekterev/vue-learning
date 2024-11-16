@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import QuizzesView from '@/views/QuizzesView.vue';
 import QuizzView from '@/views/QuizzView.vue'
-import QuizzQuestionView from '@/components/QuizzQuestion.vue'
 
 const routes = [
 	{
@@ -15,15 +14,15 @@ const routes = [
 		redirect: '/'
 	},
 	{
-		path: '/quizzes/:slug',
+		path: '/quizzes/:slug/question/:question_id',
 		name: 'quizz',
 		component: QuizzView,
-		children: [
-			{
-				path: 'question/:question_id',
-				component: QuizzQuestionView
-			}
-		]
+		// children: [
+		// 	{
+		// 		path: 'question/:question_id',
+		// 		component: QuizzQuestionView
+		// 	}
+		// ]
 	}
 ];
 

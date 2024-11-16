@@ -1,10 +1,10 @@
 <script setup>
-
+	const { progress } = defineProps(['progress'])
 </script>
 
 <template>
 	<div class="progress-bar">
-		<div class="progress-bar_progress"/>
+		<div :style="{width: progress}" class="progress-bar_progress"/>
 	</div>
 </template>
 
@@ -15,7 +15,7 @@
 		height: 20px;
 		width: 200px;
 		&_progress {
-			width: 66.6%;
+			width: 0;
 			height: 100%;
 			background-color: yellow;
 		}
