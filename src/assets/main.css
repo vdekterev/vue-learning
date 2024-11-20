@@ -24,6 +24,8 @@ main {
 .btn {
     display: inline-flex;
     padding: 6px 20px;
+    outline: none;
+    border: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
