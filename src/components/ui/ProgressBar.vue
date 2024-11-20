@@ -16,6 +16,7 @@
 		width: 200px;
 		&_progress {
 			width: 0;
+			max-width: 100%;
 			height: 100%;
 			background-color: yellow;
 		}

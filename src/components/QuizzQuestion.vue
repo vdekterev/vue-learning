@@ -1,5 +1,7 @@
 <script setup>
 	const { question } = defineProps(['question']);
+	const emit = defineEmits(['selectOption']);
+
 </script>
 
 <template>
@@ -8,7 +10,10 @@
 			{{ question.text }}
 		</h1>
 		<div class="options">
-			<div v-for="option in question.options" class="option" :key="option.id">
+			<div v-for="option in question.options"
+				 @click="emit('selectOption', option.isCorrect)"
+				 class="option" :key="option.id"
+			>
 				<div class="option_label">{{ option.label }}</div>
 				<div class="option_value">{{ option.text }}</div>
 			</div>
@@ -51,6 +56,9 @@
 			}
 			&:hover {
 				transform: scale(1.05);
+			}
+			&:active {
+				transform: scale(.95);
 			}
 			&.selected {
 				background-color: yellow;

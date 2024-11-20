@@ -14,7 +14,7 @@ const routes = [
 		redirect: '/'
 	},
 	{
-		path: '/quizzes/:slug/question/:question_id',
+		path: '/quizzes/:slug',
 		name: 'quizz',
 		component: QuizzView,
 		// children: [
