@@ -21,11 +21,16 @@ function addGuest(e) {
 		return;
 	}
 	invitedGuests.value.unshift({
-		id: Math.random(),
+		id: Math.floor(Math.random() * 1000),
 		name: guestName,
 	})
 
 	e.target.value = '';
+}
+
+function removeGuest(guest_id) {
+	const toRemoveIdx = invitedGuests.value.findIndex(guest => guest.id === guest_id)
+	invitedGuests.value.splice(toRemoveIdx, 1);
 }
 </script>
 
@@ -43,7 +48,7 @@ function addGuest(e) {
 
 		<ul>
 			<TransitionGroup name="invitees">
-				<li v-for="guest in invitedGuests" :key="guest.id">
+				<li v-for="guest in invitedGuests" :key="guest.id" @click="removeGuest(guest.id)">
 					{{ guest.name }}
 				</li>
 			</TransitionGroup>
@@ -86,8 +91,12 @@ function addGuest(e) {
 		&-enter-active {
 			transition: opacity 1s, transform .5s;
 		}
+		&-leave-active {
+			transform: scale(0.1);
+			position: absolute;
+		}
 		&-move {
-			transition: all 2s ease-in-out;
+			transition: transform 1s ease-in-out;
 		}
 	}
 </style>
