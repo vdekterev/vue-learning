@@ -13,5 +13,4 @@
 	</main>
 
 	<footer></footer>
-
 </template>
