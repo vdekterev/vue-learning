@@ -17,14 +17,16 @@ import {RouterLink} from 'vue-router';
 <style scoped lang="scss">
 	.nav {
 		display: flex;
+		align-items: center;
 		gap: .5rem;
+		height: 100%;
 
 		&_item > a {
 			font-size: 1rem;
-			transition: color 0.3s ease-in-out;
+			transition: color .3s ease-in-out;
 			cursor: pointer;
 			font-weight: bold;
-			color: #f2f2f2;
+			color: #1F1F1F;
 			&:hover {color: #bed600;}
 
 			&.active {color: #bed600;}

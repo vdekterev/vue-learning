@@ -1,23 +1,16 @@
 <script setup>
-
-import GameOfThrones from '@/components/GameOfThrones.vue';
+import RickAndMortyCards from '@/components/RickAndMortyCards.vue';
 </script>
 
 <template>
-	<div>
-		<h1>Home Page</h1>
-		<section>
+<!--		<Suspense>-->
+<!--			<template #default>-->
+<!--				<HarryPotterCards />-->
+<!--			</template>-->
+<!--			<template #fallback>-->
+<!--				<h1>Loading!</h1>-->
+<!--			</template>-->
+<!--		</Suspense>-->
+	<RickAndMortyCards/>
 
-			<Suspense>
-
-				<GameOfThrones />
-
-				<template #fallback>
-					<h1>Loading!</h1>
-				</template>
-
-			</Suspense>
-
-		</section>
-	</div>
 </template>
