@@ -1,5 +1,4 @@
 <script setup>
-
 	// "id": 2,
 	// 	"name": "Morty Smith",
 	// 	"status": "Alive",
@@ -26,32 +25,137 @@
 	// 	'name', 'image', 'gender',
 	// 	'type', 'alive', 'actor'
 	// ])
+
+	const { name, image, gender, status, species, location  } = defineProps([
+		'name', 'image', 'gender', 'status', 'species',
+		'location'
+	]);
 </script>
 
 <template>
-	<n-card :title="'Rick'">
-		<template #cover>
-			<img src="https://www.redwolf.in/image/cache/catalog/stickers/harry-potter-logo-sticker-india-600x800.jpg?m=1687859161" />
-		</template>
-		<div class="info">
-
+	<div class="flip-card">
+		<div class="flip-card-inner">
+			<div class="flip-card-front">
+				<div class="title">{{ name }}</div>
+				<img :src="image" alt="">
+			</div>
+			<div class="flip-card-back">
+				<p class="title">Short Info</p>
+				<div class="properties">
+					<div class="property">
+						<div class="prop-name">
+							Species
+						</div>
+						<div>{{ species }}</div>
+					</div>
+					<div class="property">
+						<div class="prop-name">
+							Gender
+						</div>
+						<div>{{ gender }}</div>
+					</div>
+					<div class="property">
+						<div class="prop-name">
+							Species
+						</div>
+						<div>{{ species }}</div>
+					</div>
+					<div class="property">
+						<div class="prop-name">
+							Status
+						</div>
+						<div>{{ status }}</div>
+					</div>
+					<div class="property">
+						<div class="prop-name">
+							Location
+						</div>
+						<div>
+							<a :href="location.url"  target="_blank">
+							{{ location.name }}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</n-card>
+	</div>
 </template>
 
 <style scoped lang="scss">
-.n-card {
-	width: 200px;
-	margin: 10px 20px;
-	img { height: 250px; }
+.flip-card {
+	background-color: transparent;
+	width: 190px;
+	height: 254px;
+	perspective: 1000px;
+	font-family: sans-serif;
+	cursor: pointer;
+
+	.title {
+		font-size: 1.5em;
+		font-weight: 900;
+		text-align: center;
+		margin: 0;
+	}
 }
 
-p {
-	font-size: 10px;
-}
-
-.info {
+.flip-card-front, .flip-card-back {
+	box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+	position: absolute;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-around;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	border: 1px solid coral;
+	border-radius: 1rem;
+}
+
+.flip-card-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	transition: transform 1s ease-in-out;
+	transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+	transform: rotateY(180deg);
+}
+
+.flip-card-front {
+	background: linear-gradient(120deg, bisque 60%, rgb(255, 231, 222) 88%,
+		rgb(255, 211, 195) 40%, rgba(255, 127, 80, 0.603) 48%);
+	color: coral;
+	padding-top: .5rem;
+	& > img {
+		object-fit: cover;
+		height: 100%;
+		width: 100%;
+	}
+}
+
+.flip-card-back {
+	background: linear-gradient(120deg, rgb(255, 174, 145) 30%, coral 88%,
+		bisque 40%, rgb(255, 185, 160) 78%);
+	color: white;
+	transform: rotateY(180deg);
+
+	.properties {
+		display: grid;
+		grid-row-gap: .5rem;
+		.property {
+			border-top: 1px dotted white;
+			border-bottom: 1px dotted white;
+			.prop-name {
+				font-size: .75rem;
+				color: gray;
+			}
+		}
+	}
 }
 </style>
